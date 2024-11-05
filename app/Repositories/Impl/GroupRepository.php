@@ -13,4 +13,20 @@ class GroupRepository implements IGroupRepository {
   public function findById($id) { 
     return Group::find($id);
   }
+
+  public function create($data) {
+
+  }
+
+  public function update($data) {
+
+  }
+
+  public function delete($data) {
+
+  }
+
+  public function getGroupLeader($groupId) {
+    
+  }
 }

@@ -1,7 +1,6 @@
 <?php 
 namespace App\Repositories;
 
-interface IGroupRepository {
-  public function findAll();
-  public function findById($id);
+interface IGroupRepository extends IRepository {
+  public function getGroupLeader($groupId);
 }

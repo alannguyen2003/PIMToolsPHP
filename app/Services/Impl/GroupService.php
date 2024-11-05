@@ -17,4 +17,21 @@ class GroupService implements IGroupService {
   public function findById($id) {
     return $this->groupRepository->findById($id);
   }
+
+  public function create($data) {
+
+  }
+
+  public function update($data) {
+
+  }
+
+  public function delete($data) {
+
+  }
+
+  public function getGroupLeader($groupId) {
+
+  }
+  
 }
