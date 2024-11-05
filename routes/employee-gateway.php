@@ -5,4 +5,5 @@ $router->group(['prefix' => '/api/v1'], function () use ($router) {
   $router->get("/employees/index", "EmployeeController@index");
   $router->post("/employees/store", "EmployeeController@store");
   $router->post("/employees/update", "EmployeeController@update");
+  $router->delete("/employees/delete", "EmployeeController@delete");
 });
