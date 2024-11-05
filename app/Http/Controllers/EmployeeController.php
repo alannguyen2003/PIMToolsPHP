@@ -6,6 +6,7 @@ use App\DTOs\ApiResponse;
 use App\Services\IEmployeeService;
 use Illuminate\Http\Request;
 use App\Constant\ApiResponseConstant;
+use App\Constant\MessageConstant;
 
 class EmployeeController extends Controller
 {
@@ -18,6 +19,16 @@ class EmployeeController extends Controller
     public function index() {
         $employees = $this->employeeService->findAll();
         $response = new ApiResponse(200, "", $employees);
+        return response()->json($response->toResponse());
+    }
+
+    public function find($id) {
+        $employee = $this->employeeService->findById($id);
+        $response = new ApiResponse(
+            ApiResponseConstant::HTTP_OK,
+            MessageConstant::FIND_SUCCESS,
+            $employee
+        );
         return response()->json($response->toResponse());
     }
 

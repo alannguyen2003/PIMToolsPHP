@@ -1,9 +1,12 @@
 <?php
 
-$router->group(['prefix' => '/api/v1'], function () use ($router) {
+const route = "EmployeeController@";
+
+$router->group(['prefix' => '/api/v1/employees'], function () use ($router) {
   //Employee routes
-  $router->get("/employees/index", "EmployeeController@index");
-  $router->post("/employees/store", "EmployeeController@store");
-  $router->post("/employees/update", "EmployeeController@update");
-  $router->delete("/employees/delete", "EmployeeController@delete");
+  $router->get("/index", route."index");
+  $router->get("/find/{id}", route."find");
+  $router->post("/store", route."store");
+  $router->post("/update", route."update");
+  $router->delete("/delete", route."delete");
 });
