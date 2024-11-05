@@ -40,4 +40,14 @@ class EmployeeController extends Controller
         return response()->json($response->toResponse());
     }
 
+    public function delete(Request $request) {
+        $this->employeeService->delete($request);
+        $response = new ApiResponse(
+            ApiResponseConstant::HTTP_NO_CONTENT,
+            "Delete successful!",
+            null
+        );
+        return response()->json($response->toResponse());
+    }
+
 }
