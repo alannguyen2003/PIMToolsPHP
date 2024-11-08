@@ -33,6 +33,14 @@ class GroupController extends Controller
 
     public function findById($id) {
         $group = $this->groupService->findById($id);
+        if ($group === null) {
+            $response = new ApiResponse(
+                ApiResponseConstant::HTTP_NOT_FOUND,
+                MessageConstant::NOT_FOUND,
+                null
+            );
+            return response()->json($response->toResponse());
+        }
         $response = new ApiResponse(
             ApiResponseConstant::HTTP_OK,
             MessageConstant::FIND_SUCCESS,
@@ -43,10 +51,18 @@ class GroupController extends Controller
 
     public function getGroupLeader($id) {
         $leader = $this->groupService->getGroupLeader($id);
+        if ($leader === null) {
+            $response = new ApiResponse(
+                ApiResponseConstant::HTTP_NOT_FOUND,
+                MessageConstant::NOT_FOUND,
+                null
+            );
+            return response()->json($response->toResponse());
+        }
         $response = new ApiResponse(
             ApiResponseConstant::HTTP_OK,
             MessageConstant::FIND_SUCCESS,
-            $leader
+            $leader 
         );
         return response()->json($response->toResponse());
     }
