@@ -1,18 +1,22 @@
 <?php
 
 namespace App\DTOs\Request\Authenticate;
+use App\DTOs\Validation\ValidationConstant;
 use Illuminate\Support\Facades\Validator;
 
 
 class LoginAuthenticate {
-  public const rules = [
-    "username.required" => "Username is required!",
-    "password.required" => "Password is required!"  
-  ];
+  public static function rules() {
+    return [
+      "username.required" => "Username".ValidationConstant::isRequired(),
+      "password.required" => "Password".ValidationConstant::isRequired()  
+    ];
+  } 
 
-  public const validator = Validator::make($request->all(), [
-      'username' => 'required|string',
-      'password' => 'required|string',
-  ], $rules);
-
+  public static function validator($request) {
+    return Validator::make($request->all(), [
+        'username' => 'required|string',
+        'password' => 'required|string',
+    ], LoginAuthenticate::rules());
+  } 
 }

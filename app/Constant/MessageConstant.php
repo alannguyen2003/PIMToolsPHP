@@ -15,4 +15,5 @@ class MessageConstant {
   const NOT_FOUND = "Entity not found!";
   const BAD_REQUEST = "Bad Request!!";
   const UNAUTHORIZED = "Unauthorized!";
+  const EXISTED = "New entity to add is existed!";
 }

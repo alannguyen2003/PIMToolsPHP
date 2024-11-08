@@ -6,8 +6,10 @@ use App\Constant\ApiResponseConstant;
 use App\Constant\MessageConstant;
 use App\DTOs\ApiResponse;
 use App\DTOs\Request\Authenticate\LoginAuthenticate;
+use App\DTOs\Request\Authenticate\RegisterAuthenticate;
 use App\Http\Requests\AuthenticationRequest;
 use App\Services\IHelperService;
+use App\Services\IUserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -15,14 +17,13 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AuthenticationController extends Controller
 {
     private $helperService;
-    public function __construct(IHelperService $helperService) {
-        $this->middleware('auth');
+    private $userService;
+    public function __construct(IHelperService $helperService, IUserService $userService) {
         $this->helperService = $helperService;
+        $this->userService = $userService;
     }
     public function login(Request $request) {
-        $rules = LoginAuthenticate::rules;
-        $validator = LoginAuthenticate::validator;
-
+        $validator = LoginAuthenticate::validator($request);
         if ($validator->fails()) {
             $errors = $validator->errors();
             $response = new ApiResponse(
@@ -46,22 +47,45 @@ class AuthenticationController extends Controller
         $response = new ApiResponse(
             ApiResponseConstant::HTTP_OK,
             MessageConstant::SUCCESSFUL_AUTHENTICATION,
-            $this->createNewToken($token)
+            $this->userService->createNewToken($token)
         );
         return response()->json($response->toResponse());
-    }
-
-    protected function createNewToken($token) {
-        return [
-            'access_token' => $token, 
-            'token_type' => 'bearer',
-            'expires_in' => JWTAuth::factory()->getTTL() * 60
-        ];
     }
 
     public function getProfile() {
         $this->middleware('auth');
         $user = auth()->user()->role;
         return response()->json($user);
+    }
+
+    public function register(Request $request) {
+        $rules = RegisterAuthenticate::rules();
+        $validator = RegisterAuthenticate::validator($request);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $response = new ApiResponse(
+                ApiResponseConstant::HTTP_BAD_REQUEST,
+                MessageConstant::BAD_REQUEST,
+                $errors
+            );
+            return response()->json($response->toResponse());
+        }
+        $newUser = $this->userService->registerNewUser($request);
+        if ($newUser === 0) {
+            $response = new ApiResponse(
+                ApiResponseConstant::HTTP_BAD_REQUEST,
+                MessageConstant::BAD_REQUEST,
+                MessageConstant::EXISTED
+            );
+            return response()->json($response->toResponse());
+        }
+        $response = new ApiResponse(
+            ApiResponseConstant::HTTP_CREATED,
+            MessageConstant::CREATED,
+            $newUser
+        );
+        return response()->json(
+            $response->toResponse()
+        );
     }
 }
