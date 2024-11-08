@@ -2,6 +2,8 @@
 
 namespace App\Services\Impl;
 
+use App\DTOs\Request\Group\CreateGroupRequest;
+use App\DTOs\Request\Group\UpdateGroupRequest;
 use App\Repositories\IGroupRepository;
 use App\Services\IGroupService;  
 
@@ -19,11 +21,16 @@ class GroupService implements IGroupService {
   }
 
   public function create($data) {
-
+    return $this->groupRepository->create(new CreateGroupRequest(
+      $data->groupLeaderId
+    ));
   }
 
   public function update($data) {
-
+    return $this->groupRepository->update(new UpdateGroupRequest(
+      $data->id,
+      $data->groupLeaderId
+    ));
   }
 
   public function delete($data) {
@@ -31,7 +38,7 @@ class GroupService implements IGroupService {
   }
 
   public function getGroupLeader($groupId) {
-
+    return $this->groupRepository->getGroupLeader($groupId);
   }
-  
+
 }

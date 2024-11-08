@@ -60,5 +60,4 @@ class EmployeeController extends Controller
         );
         return response()->json($response->toResponse());
     }
-
 }

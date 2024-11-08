@@ -12,7 +12,7 @@ class EmployeeSeeder extends Seeder {
     for ($i = 0; $i < 10; $i++) {
       DB::table("employees")->insert([
         'visa' => 123,
-        'first_name' => Str::random(0),
+        'first_name' => Str::random(10),
         'last_name'=> Str::random(20),
         'birth_date' => Carbon::today()->subDays(rand(0, 180))
       ]);

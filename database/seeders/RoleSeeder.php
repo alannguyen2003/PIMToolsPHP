@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Utils\DateExtension;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -18,20 +19,14 @@ class RoleSeeder extends Seeder
     {
         DB::table("roles")->insert([
             "role_name" => "admin",
-            "created_at" => Carbon::now()->format("Y-m-d H:i:s"),
-            "updated_at" => Carbon::now()->format("Y-m-d H:i:s")
-        ]);
-
-        DB::table("roles")->insert([
-            "role_name" => "customer",
-            "created_at" => Carbon::now()->format("Y-m-d H:i:s"),
-            "updated_at" => Carbon::now()->format("Y-m-d H:i:s")
+            "created_at" => DateExtension::getDateTimeByFormat(DateExtension::getCurrentDate()),
+            "updated_at" => DateExtension::getDateTimeByFormat(DateExtension::getCurrentDate())
         ]);
 
         DB::table("roles")->insert([
             "role_name" => "manager",
-            "created_at" => Carbon::now()->format("Y-m-d H:i:s"),
-            "updated_at" => Carbon::now()->format("Y-m-d H:i:s")
+            "created_at" => DateExtension::getDateTimeByFormat(DateExtension::getCurrentDate()),
+            "updated_at" => DateExtension::getDateTimeByFormat(DateExtension::getCurrentDate())
         ]);
     }
 }

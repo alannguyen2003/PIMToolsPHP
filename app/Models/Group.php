@@ -8,8 +8,8 @@ class Group extends Model
 {
     protected $table = "groups";
     protected $fillable = ["group_leader_id"];
-    public function employee() {
-        return $this->hasOne(Employee::class);
+    public function groupLeader() {
+        return $this->belongsTo(Employee::class);
     }
 
     public function projects() {

@@ -84,7 +84,7 @@ class Employee extends Model
     }
     
     public function group() {
-        return $this->belongsTo(Group::class, "group_leader_id");
+        return $this->hasOne(Group::class, "group_leader_id");
     }
     public function projects() {
         return $this->hasMany(ProjectEmployee::class, );
