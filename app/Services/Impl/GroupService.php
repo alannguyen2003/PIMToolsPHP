@@ -27,14 +27,11 @@ class GroupService implements IGroupService {
   }
 
   public function update($data) {
-    return $this->groupRepository->update(new UpdateGroupRequest(
-      $data->id,
-      $data->groupLeaderId
-    ));
+    return $this->groupRepository->update($data);
   }
 
   public function delete($data) {
-
+    $this->groupRepository->delete($data);
   }
 
   public function getGroupLeader($groupId) {

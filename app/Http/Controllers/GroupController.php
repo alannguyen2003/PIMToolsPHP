@@ -6,6 +6,7 @@ use App\Constant\ApiResponseConstant;
 use App\Constant\MessageConstant;
 use App\DTOs\ApiResponse;
 use App\Services\IGroupService;
+use Exception;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -92,7 +93,22 @@ class GroupController extends Controller
         return response()->json($response->toResponse());
     }
 
-    public function delete(Request $request) {
-
+    public function delete($id) {
+        try {
+            $this->groupService->delete($id);
+            $response = new ApiResponse(
+                ApiResponseConstant::HTTP_NO_CONTENT,
+                MessageConstant::DELETED,
+                null
+            );
+            return response()->json($response->toResponse());
+        } catch (Exception $ex) {
+            $response = new ApiResponse(
+                ApiResponseConstant::HTTP_BAD_REQUEST,
+                MessageConstant::DELETED_FAILED,
+                $ex->getMessage()
+            );
+            return response()->json($response->toResponse());
+        }
     }
 }

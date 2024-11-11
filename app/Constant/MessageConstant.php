@@ -16,4 +16,5 @@ class MessageConstant {
   const BAD_REQUEST = "Bad Request!!";
   const UNAUTHORIZED = "Unauthorized!";
   const EXISTED = "New entity to add is existed!";
+  const DELETED_FAILED = "Entity deleted failed!!";
 }

@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Constant\ApiResponseConstant;
+use App\Constant\MessageConstant;
+use App\DTOs\ApiResponse;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
@@ -36,9 +39,13 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response('Unauthorized.', 401);
+            $response = new ApiResponse(
+                ApiResponseConstant::HTTP_UNAUTHORIZED,
+                MessageConstant::UNAUTHORIZED,
+                "Unauthorized!!!"
+            );
+            return response()->json($response->toResponse());
         }
-
         return $next($request);
     }
 }

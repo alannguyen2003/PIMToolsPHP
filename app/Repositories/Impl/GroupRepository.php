@@ -26,11 +26,11 @@ class GroupRepository implements IGroupRepository {
   }
 
   public function update($data) {
-    $groupEntity = Group::find($data->getId());
+    $groupEntity = Group::find($data->id);
     if ($groupEntity !== null) {
-      $group = DB::table("groups")->where('id', '=', $data->getId())
+      $group = DB::table("groups")->where('id', '=', $data->id)
         ->update([
-          'group_leader_id' => $data->getGroupLeaderId(),
+          'group_leader_id' => $data->groupLeaderId,
           'updated_at' => DateExtension::getDateTimeByFormat(DateExtension::getCurrentDate())
         ]);
       
@@ -40,10 +40,18 @@ class GroupRepository implements IGroupRepository {
   }
 
   public function delete($data) {
+      $group = Group::findOrFail($data);
+      if ($group !== null) {
+        $group->delete();
+      }
 
   }
 
   public function getGroupLeader($groupId) {
-    return Group::find($groupId)->groupLeader;
+    $group = Group::findOrFail($groupId);
+    if ($group !== null) {
+      return $group->groupLeader;
+    }
+    return null;
   }
 }
