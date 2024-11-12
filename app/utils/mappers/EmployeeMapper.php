@@ -8,17 +8,6 @@ use App\Models\Employee;
 
 class EmployeeMapper {
 
-  // ---> Map From Request
-  public static function mapFromCreateEmployeeRequest($data) {
-    $employee = new Employee($data->getVisa(),
-                              $data->getFirstName(), 
-                              $data->getLastName(), 
-                              $data->getBirthDate(),
-                              DateExtension::getCurrentDate(),
-                              DateExtension::getCurrentDate());
-    return EmployeeMapper::mapToArray($employee);
-  }
-
   // ---> Map To Response
   public static function mapToEmployeeResponse($data) {
     return new EmployeeResponse($data->visa, $data->first_name, 

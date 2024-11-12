@@ -10,8 +10,11 @@ use App\DTOs\Request\Authenticate\RegisterAuthenticate;
 use App\Http\Requests\AuthenticationRequest;
 use App\Services\IHelperService;
 use App\Services\IUserService;
+use App\Utils\AuthorizationUtilities;
+use App\Utils\ResponseUtilities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Constant\RoleConstant;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthenticationController extends Controller
@@ -53,9 +56,31 @@ class AuthenticationController extends Controller
     }
 
     public function getProfile() {
-        $this->middleware('auth');
-        $user = auth()->user()->role;
-        return response()->json($user);
+        if (!AuthorizationUtilities::isAbleToManage(auth()->user()->id, RoleConstant::MANAGER)) {
+            return response()->json(ResponseUtilities::returnResponse(
+                ApiResponseConstant::HTTP_FORBIDDEN,
+                MessageConstant::SUCCESSFUL_AUTHENTICATION,
+                auth()->user()
+            ));
+            
+        } else {
+            return response()->json(ResponseUtilities::returnResponse(
+                ApiResponseConstant::HTTP_OK,
+                MessageConstant::FIND_SUCCESS,
+                auth()->user()
+            ));
+        }
+        // $response = new ApiResponse(
+        //     ApiResponseConstant::HTTP_OK,
+        //     MessageConstant::SUCCESSFUL_AUTHENTICATION,
+        //     $user
+        // );
+        // return response()->json($response->toResponse());
+        // return response()->json("hehe");
+        // return response()->json(AuthorizationUtilities::isAbleToManage(auth()->user()->id,
+        //                                                                         RoleConstant::MANAGER));
+        // return response()->json(AuthorizationUtilities::isAbleToManage(auth()->user()->id,
+        //                                                                         RoleConstant::MANAGER));
     }
 
     public function register(Request $request) {

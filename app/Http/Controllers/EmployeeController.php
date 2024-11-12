@@ -7,6 +7,7 @@ use App\Services\IEmployeeService;
 use Illuminate\Http\Request;
 use App\Constant\ApiResponseConstant;
 use App\Constant\MessageConstant;
+use App\Utils\ResponseUtilities;
 
 class EmployeeController extends Controller
 {
@@ -59,5 +60,14 @@ class EmployeeController extends Controller
             null
         );
         return response()->json($response->toResponse());
+    }
+
+    public function getGroup($id) {
+        $groups = $this->employeeService->getGroupByEmployeeId($id);
+        return response()->json(ResponseUtilities::returnResponse(
+            ApiResponseConstant::HTTP_OK,
+            MessageConstant::GET_ALL,
+            $groups
+        ));
     }
 }

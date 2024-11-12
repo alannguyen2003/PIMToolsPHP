@@ -44,13 +44,12 @@ class GroupRepository implements IGroupRepository {
       if ($group !== null) {
         $group->delete();
       }
-
   }
 
   public function getGroupLeader($groupId) {
-    $group = Group::findOrFail($groupId);
+    $group = Group::findOrFail($groupId)->groupLeader;
     if ($group !== null) {
-      return $group->groupLeader;
+      return $group;
     }
     return null;
   }

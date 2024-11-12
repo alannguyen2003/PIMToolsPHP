@@ -15,7 +15,3 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
-
-$router->post('register', 'AuthenticationController@register');
-$router->post('login', 'AuthenticationController@login');
-$router->post('get-auth', 'AuthenticationController@getProfile');

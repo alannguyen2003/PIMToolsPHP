@@ -26,7 +26,7 @@ class EmployeeRepository implements IEmployeeRepository {
   }
 
   public function getGroupOfEmployee($id) {
-    return Employee::find($id)->group;
+    return Employee::find($id)->groups;
   }
 
   public function create($data) {

@@ -12,6 +12,8 @@ $router->group(['prefix' => '/api'], function () use ($router) {
     $router->post("/store", route."store");
     $router->post("/update", route."update");
     $router->delete("/delete", route."delete"); 
+    $router->get("/get-group/{id}", route."getgroup"); 
+
   });
 
   // Version 2
