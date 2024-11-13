@@ -51,7 +51,12 @@ class ProjectService implements IProjectService {
 
   public function create($data) {
     $errors = $this->projectValidation($data);
-    if (count($errors) > 0) return ResponseUtilities::returnResponse(
+    if (count($errors['customer']) > 0 ||
+        count($errors['name']) > 0 ||
+        count($errors['startDate, endDate']) > 0 ||
+        count($errors['groupId']) > 0 ||
+        count($errors['status']) > 0 ||
+        count($errors['projectNumber']) > 0) return ResponseUtilities::returnResponse(
       ApiResponseConstant::HTTP_BAD_REQUEST,
       MessageConstant::BAD_REQUEST,
       $errors
@@ -77,15 +82,43 @@ class ProjectService implements IProjectService {
 
   public function projectValidation($data) {
     $statuses = ["NEW", "PLA", "INP", "FIN"];
-    $errors = [];
-    if ($this->groupRepository->findById($data->groupId) === null) 
-      array_push($errors, "Group ID is not existed!!");
-    if (!$this->projectRepository->isExistProjectNumber($data->projectNumber)) 
-      array_push($errors, "Project number is existed!!");
-    if ($data->startDate >= $data->endDate) 
-      array_push($errors, "Start date must be later than end date and not the same date!!");
+    $errors = [
+      "name" => [],
+      "customer" => [],
+      "status" => [],
+      "projectNumber" => [],
+      "groupId" => [],
+      "startDate, endDate" => []
+    ];
+    //Property "name"
+    if ($data->name === null) 
+      array_push($errors["name"], "Project name is required!!");
+    //Property "customer"
+    if ($data->customer === null) 
+      array_push($errors["customer"], "Customer of project is required!!");
+    //Property "status"
+    if ($data->status === null) 
+      array_push($errors["status"], "Status is required!!");
     if (!in_array($data->status, $statuses))
-      array_push($errors, "Status must be one of statuses: NEW -> New, PLA -> Planned, INP -> In Progress, FIN -> Finished!!");
-      return $errors;
+      array_push($errors["status"], "Status must be one of statuses: NEW -> New, PLA -> Planned, INP -> In Progress, FIN -> Finished!!");
+    //Property "projectNumber"
+    if ($data->projectNumber === null) 
+      array_push($errors["projectNumber"], "Project number is required!!");
+    if ($data->projectNumber < 0 || $data->projectNumber > 9999) 
+      array_push($errors['projectNumber'], "Project number need to be in range of 1 to 9999");
+    if ($this->projectRepository->isExistProjectNumber($data->projectNumber)) 
+      array_push($errors["projectNumber"], "Project number is existed!!");
+    //Property "groupId"
+    if ($data->groupId === null) 
+      array_push($errors["groupId"], "Group ID is required!!");
+    if ($this->groupRepository->findById($data->groupId) === null) 
+      array_push($errors["groupId"], "Group ID is not existed!!");
+    //Property "startDate" and "endDate"
+    if ($data->startDate === null) 
+      array_push($errors['startDate, endDate'], "Start date of project is required!!");
+    if ($data->endDate !== null && $data->startDate >= $data->endDate) 
+      array_push($errors["startDate, endDate"], "Start date must be later than end date and not the same date!!");
+    
+    return $errors;
   }
 }

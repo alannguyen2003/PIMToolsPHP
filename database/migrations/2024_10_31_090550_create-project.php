@@ -20,7 +20,7 @@ class CreateProject extends Migration
             $table->string("status");
             $table->string("customer");
             $table->date("start_date");
-            $table->date("end_date");
+            $table->date("end_date")->nullable();
             $table->integer("group_id")
                     ->references("id")
                     ->on("groups")

@@ -59,6 +59,6 @@ class ProjectRepository implements IProjectRepository {
   }
 
   public function isExistProjectNumber($projectNumber) {
-    return Project::where("project_number", "=", $projectNumber) !== null? true : false;
+    return Project::where("project_number", "=", $projectNumber)->first() !== null? true : false;
   }
 }
