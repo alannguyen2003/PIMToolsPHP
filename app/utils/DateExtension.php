@@ -10,6 +10,6 @@ class DateExtension {
   }
 
   public static function getDateTimeByFormat($data) {
-    return date('Y/d/m H:i:s', DateExtension::getCurrentDate());
+    return date('Y-m-d H:i:s', DateExtension::getCurrentDate());
   }
 }
