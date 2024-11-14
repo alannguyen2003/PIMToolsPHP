@@ -94,21 +94,8 @@ class GroupController extends Controller
     }
 
     public function delete($id) {
-        try {
-            $this->groupService->delete($id);
-            $response = new ApiResponse(
-                ApiResponseConstant::HTTP_NO_CONTENT,
-                MessageConstant::DELETED,
-                null
-            );
-            return response()->json($response->toResponse());
-        } catch (Exception $ex) {
-            $response = new ApiResponse(
-                ApiResponseConstant::HTTP_BAD_REQUEST,
-                MessageConstant::DELETED_FAILED,
-                $ex->getMessage()
-            );
-            return response()->json($response->toResponse());
-        }
+        return response()->json(
+            $this->groupService->delete($id)
+        );
     }
 }

@@ -59,10 +59,9 @@ class AuthenticationController extends Controller
         if (!AuthorizationUtilities::isAbleToManage(auth()->user()->id, RoleConstant::MANAGER)) {
             return response()->json(ResponseUtilities::returnResponse(
                 ApiResponseConstant::HTTP_FORBIDDEN,
-                MessageConstant::SUCCESSFUL_AUTHENTICATION,
-                auth()->user()
+                MessageConstant::FORBIDDEN,
+                null
             ));
-            
         } else {
             return response()->json(ResponseUtilities::returnResponse(
                 ApiResponseConstant::HTTP_OK,

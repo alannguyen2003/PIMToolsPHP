@@ -21,4 +21,36 @@ class ProjectController extends Controller
             $this->projectService->create($request)
         );
     }
+
+    public function update(Request $request) {
+        return response()->json(
+            $this->projectService->update($request)
+        );
+    }
+
+    public function addEmployeesToProject(Request $request) {
+        return response()->json($this->projectService->addMultipleEmployeesToProject($request));
+    }
+
+    public function getAllEmployeesOfProject($projectId) {
+        return response()->json($this->projectService->getAllEmployeesOfProject($projectId));
+    }
+
+    public function deleteEmployeesOfProject(Request $request) {
+        return response()->json(
+            $this->projectService->deleteMultipleEmployeesOfProject($request)
+        );
+    }
+    
+    public function getProjectOfEmployeeHandles($employeeId) {
+        return response()->json(
+            $this->projectService->getAllProjectsEmployeeHandles($employeeId)
+        );
+    }
+
+    public function getGroupHandle($id) {
+        return response()->json(
+            $this->projectService->getGroupHandle($id)
+        );
+    }
 }

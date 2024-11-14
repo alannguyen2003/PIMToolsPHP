@@ -14,7 +14,8 @@ class ProjectRepository implements IProjectRepository {
   }
 
   public function findById($id) {
-    return Project::findOrFail($id);
+    $project = Project::find($id);
+    return $project !== null? $project : null;
   }
 
   public function create($data) {

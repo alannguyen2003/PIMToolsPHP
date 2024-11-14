@@ -3,6 +3,7 @@
 namespace App\Repositories\Impl;
 
 use App\Models\Group;
+use App\Models\Project;
 use App\Repositories\IGroupRepository;
 use App\Utils\DateExtension;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,8 @@ class GroupRepository implements IGroupRepository {
   }
 
   public function findById($id) { 
-    return Group::find($id);
+    $group = Group::find($id);
+    return $group !== null? $group : null;
   }
 
   public function create($data) {
@@ -52,5 +54,10 @@ class GroupRepository implements IGroupRepository {
       return $group;
     }
     return null;
+  }
+
+  public function isGroupHandleAnyProject($id) {
+    $records = Project::where("group_id", "=", $id)->first();
+    return $records !== null? true : false;
   }
 }

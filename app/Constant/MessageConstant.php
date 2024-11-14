@@ -17,4 +17,5 @@ class MessageConstant {
   const UNAUTHORIZED = "Unauthorized!";
   const EXISTED = "New entity to add is existed!";
   const DELETED_FAILED = "Entity deleted failed!!";
+  const FORBIDDEN = "You don't have permission to use this action!!";
 }

@@ -2,11 +2,13 @@
 
 namespace App\Repositories\Impl;
 
+use App\Constant\AllTablesConstant;
 use App\Models\Employee;
 use App\Models\Project;
 use App\Repositories\IEmployeeRepository;
 use Illuminate\Cache\Repository;
 use App\DTOs\Request\Employee\CreateEmployeeRequest;
+use App\Models\Group;
 use App\Repositories\IRepository;
 use App\Utils\Mappers\EmployeeMapper;
 use App\Utils\DateExtension;
@@ -62,6 +64,14 @@ class EmployeeRepository implements IEmployeeRepository {
 
   public function delete($data) {
     $employee = Employee::findOrFail($data->getId());
+    $groups = Group::where("group_leader_id", '=', $data->getId())->get();
+    foreach ($groups as $item) {
+      DB::table(AllTablesConstant::GROUP_TABLE)->where('id', '=', $item->id) 
+        ->update([
+          "group_leader_id" => 0,
+          "updated_at" => DateExtension::getDateTimeByFormat(DateExtension::getCurrentDate())
+        ]);
+    }
     if ($employee !== null) {
       $employee->delete();
     }

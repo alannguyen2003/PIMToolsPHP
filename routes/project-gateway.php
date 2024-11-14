@@ -12,6 +12,11 @@ $router->group(['prefix' => '/api'], function () use ($router) {
     $router->post("/store", routeProject."store");
     $router->post("/update", routeProject."update");
     $router->delete("/delete/{id}", routeProject."delete"); 
+    $router->get("/get-group-handle/{id}", routeProject."getGroupHandle");
+    $router->post("/add-employees-to-project", routeProject."addEmployeesToProject");
+    $router->get("/get-employees-of-project/{projectId}", routeProject."getAllEmployeesOfProject");
+    $router->post("/delete-employees-of-project", routeProject."deleteEmployeesOfProject");
+    $router->get("/get-projects-employee-handles/{employeeId}", routeProject."getProjectOfEmployeeHandles");
   });
 
   // Version 2
